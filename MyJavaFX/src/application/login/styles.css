@@ -1,0 +1,17 @@
+.root {
+    background-color: lightgray;
+}
+
+.text-field, .password-field {
+    -fx-pref-width: 200px;
+}
+
+.button {
+    -fx-background-color: darkslateblue;
+    -fx-text-fill: white;
+    -fx-pref-width: 200px;
+}
+
+.text {
+    -fx-font-size: 20px;
+}
