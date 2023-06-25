@@ -7,5 +7,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javafx20"/>
+	<classpathentry kind="lib" path="C:/Users/vince/Documents/libs/jna/jna-5.13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vince/Documents/libs/gson/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vince/Documents/libs/oshi/logback.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vince/Documents/libs/oshi/oshi-core-6.4.2-20230324.055241-6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vince/Documents/libs/oshi/slf4j.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vince/Documents/libs/jsch-0.1.55.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
