@@ -12,5 +12,9 @@ public class LoginController {
 	@FXML
 	private PasswordField password;
 	
-	
+	@FXML
+	protected void handleSubmitButtonAction() {
+		System.out.println("Username: " + username.getText());
+		System.out.println("Password: " + password.getText());
+	}
 }

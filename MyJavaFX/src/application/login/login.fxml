@@ -21,6 +21,6 @@
       </Text>
       <TextField fx:id="username" promptText="Username" />
       <PasswordField fx:id="password" promptText="Password" />
-      <Button text="Submit" />
+      <Button text="Submit" onAction="#handleSubmitButtonAction" />
    </children>
 </VBox>
