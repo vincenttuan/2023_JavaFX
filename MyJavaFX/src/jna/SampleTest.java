@@ -10,8 +10,8 @@ public class SampleTest {
         	for (int i=0; i<20_0000; i++) {
         		String json = MyLibrary.INSTANCE.getJsonPriceFileTSE();
         		if(json == null) continue;
-        		//System.out.println(i + ": " + json);
-        		System.out.println(i);
+        		System.out.println(i + ": " + json);
+        		
         	}
         	//int endReturnValue = MyLibrary.INSTANCE.endFileTSE();
         	//System.out.println("endReturnValue = " + endReturnValue);
