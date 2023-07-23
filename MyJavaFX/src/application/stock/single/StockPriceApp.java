@@ -2,6 +2,7 @@ package application.stock.single;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -15,7 +16,8 @@ import javafx.stage.Stage;
 public class StockPriceApp extends Application {
 	
 	private TableView<StockInfo> tableView = new TableView<>();
-	private List<String> symnols = Arrays.asList("2344", "1101", "2330");
+	private List<String> symbols = Arrays.asList("2344", "1101", "2330");
+	private ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -45,12 +47,29 @@ public class StockPriceApp extends Application {
 		Scene scene = new Scene(tableView, 800, 400);
 		stage.setScene(scene);
 		stage.show();
+		
+		// 啟動一條執行緒, 來變更報價資料
+		new Thread(() -> {
+			while (true) {
+				for(int i=0;i<symbols.size();i++) {
+					StockInfo stockInfo = stockInfos.get(i);
+					// 更新報價
+					stockInfo.setLastPrice(new Random().nextDouble(100));
+					// 更新 tableview
+					tableView.refresh();
+					try {
+						Thread.sleep(10);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}).start();
 	}
 	
 	// 取得 tableview 所有項目的初始資料
 	private ObservableList<StockInfo> getStockData() {
-		ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
-		for(String symbol : symnols) {
+		
+		for(String symbol : symbols) {
 			StockInfo stockInfo = new StockInfo();
 			stockInfo.setSymbol(symbol);
 			stockInfos.add(stockInfo);
