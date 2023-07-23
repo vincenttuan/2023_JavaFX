@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import application.stock.mvc.model.StockInfo;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,14 +41,14 @@ public class StockPriceController {
 			while (true) {
 				for(int i=0;i<symbols.size();i++) {
 					StockInfo stockInfo = stockInfos.get(i);
-					// 更新報價
-					stockInfo.setLastPrice(new Random().nextDouble(100));
-					// 更新時間
-					stockInfo.setMatchTime("08:59:" + new Random().nextInt(60));
-					// 更新 tableview
-					//tableView.refresh(); // 整頁更新效率最差
-					// 更新該筆紀錄(Refresh 紀錄)
-					//stockInfos.set(i, stockInfo);
+					
+					// 建議在 JavaFX 的執行緒中更新 UI
+					Platform.runLater(() -> {
+						// 更新報價
+						stockInfo.setLastPrice(new Random().nextDouble(100));
+						// 更新時間
+						stockInfo.setMatchTime("08:59:" + new Random().nextInt(60));
+					});
 					
 					try {
 						Thread.sleep(10);
