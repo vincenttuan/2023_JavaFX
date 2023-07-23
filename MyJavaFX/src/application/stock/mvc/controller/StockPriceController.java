@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import application.stock.mvc.model.StockInfo;
 import javafx.application.Platform;
@@ -27,6 +29,7 @@ public class StockPriceController {
 	
 	private List<String> symbols = Arrays.asList("2344", "1101", "2330");
 	private ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
+	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 	
 	@FXML private void initialize() {
 		
@@ -37,8 +40,8 @@ public class StockPriceController {
 		tableView.setItems(getStockData());
 		
 		// 啟動一條執行緒, 來變更報價資料
-		new Thread(() -> {
-			while (true) {
+		executorService.submit(() -> {
+			while (!Thread.currentThread().isInterrupted()) {
 				for(int i=0;i<symbols.size();i++) {
 					StockInfo stockInfo = stockInfos.get(i);
 					
@@ -52,11 +55,18 @@ public class StockPriceController {
 					
 					try {
 						Thread.sleep(10);
-					} catch (Exception e) {
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt(); // 恢復中斷
+						break; // 跳出循環
 					}
 				}
 			}
-		}).start();
+		});
+	}
+	
+	// 當需要停止的時候呼叫此方法
+	public void shutdown() {
+		executorService.shutdownNow(); // 立即停止服務與其中正在執行的的執行緒
 	}
 	
 	private ObservableList<StockInfo> getStockData() {
