@@ -7,9 +7,9 @@
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="application.stock.mvc.controller.StockPriceController">
     <TableView fx:id="tableView">
         <columns>
-            <TableColumn fx:id="symbolCol" text=""/>
-            <TableColumn fx:id="lastPriceCol" text=""/>
-            <TableColumn fx:id="matchTimeCol" text=""/>
+            <TableColumn fx:id="symbolCol" text="股票代號"/>
+            <TableColumn fx:id="lastPriceCol" text="成交價"/>
+            <TableColumn fx:id="matchTimeCol" text="成交時間"/>
         </columns>
     </TableView>
 </VBox>
