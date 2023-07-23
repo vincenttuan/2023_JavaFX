@@ -55,6 +55,8 @@ public class StockPriceApp extends Application {
 					StockInfo stockInfo = stockInfos.get(i);
 					// 更新報價
 					stockInfo.setLastPrice(new Random().nextDouble(100));
+					// 更新時間
+					stockInfo.setMatchTime("08:59:" + new Random().nextInt(60));
 					// 更新 tableview
 					//tableView.refresh(); // 整頁更新效率最差
 					// 更新該筆紀錄(Refresh 紀錄)
