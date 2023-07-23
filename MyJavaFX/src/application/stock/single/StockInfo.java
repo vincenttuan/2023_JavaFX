@@ -16,6 +16,7 @@ public class StockInfo {
 	private List<Double> askPrices; // 最新五檔賣價
 	private List<Integer> askVolumes; // 最新五檔賣量
 	private String matchTime; // 成交時間
+	
 	public String getMsgSeq() {
 		return msgSeq;
 	}
