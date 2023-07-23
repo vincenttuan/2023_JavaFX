@@ -3,6 +3,7 @@ package application.stock.mvc.controller;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import application.stock.mvc.model.StockInfo;
 import javafx.collections.FXCollections;
@@ -34,6 +35,27 @@ public class StockPriceController {
 		
 		tableView.setItems(getStockData());
 		
+		// 啟動一條執行緒, 來變更報價資料
+		new Thread(() -> {
+			while (true) {
+				for(int i=0;i<symbols.size();i++) {
+					StockInfo stockInfo = stockInfos.get(i);
+					// 更新報價
+					stockInfo.setLastPrice(new Random().nextDouble(100));
+					// 更新時間
+					stockInfo.setMatchTime("08:59:" + new Random().nextInt(60));
+					// 更新 tableview
+					//tableView.refresh(); // 整頁更新效率最差
+					// 更新該筆紀錄(Refresh 紀錄)
+					//stockInfos.set(i, stockInfo);
+					
+					try {
+						Thread.sleep(10);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}).start();
 	}
 	
 	private ObservableList<StockInfo> getStockData() {
