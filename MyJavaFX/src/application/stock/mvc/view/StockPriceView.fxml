@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="application.stock.mvc.controller.StockPriceController">
-    <TableView fx:id="table">
+    <TableView fx:id="tableView">
         <columns>
-            <TableColumn fx:id="symbolCol" text="symbol"/>
-            <TableColumn fx:id="lastPriceCol" text="lastPrice"/>
-            <TableColumn fx:id="matchTimeCol" text="matchTime"/>
+            <TableColumn fx:id="symbolCol" text=""/>
+            <TableColumn fx:id="lastPriceCol" text=""/>
+            <TableColumn fx:id="matchTimeCol" text=""/>
         </columns>
     </TableView>
 </VBox>
