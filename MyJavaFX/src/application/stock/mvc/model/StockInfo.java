@@ -1,4 +1,4 @@
-package application.stock.single;
+package application.stock.mvc.model;
 
 import java.util.List;
 
