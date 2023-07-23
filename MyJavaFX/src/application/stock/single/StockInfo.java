@@ -27,71 +27,71 @@ public class StockInfo {
     private ObservableList<Integer> askVolumes = FXCollections.observableArrayList(); // 最新五檔賣量
     private StringProperty matchTime = new SimpleStringProperty(this, "matchTime", ""); // 成交時間
     
-	public StringProperty getMsgSeq() {
-		return msgSeq;
+	public String getMsgSeq() {
+		return msgSeq.get();
 	}
-	public void setMsgSeq(StringProperty msgSeq) {
-		this.msgSeq = msgSeq;
+	public void setMsgSeq(String msgSeq) {
+		this.msgSeq.set(msgSeq);
 	}
-	public StringProperty getSymbol() {
-		return symbol;
+	public String getSymbol() {
+		return symbol.get();
 	}
-	public void setSymbol(StringProperty symbol) {
-		this.symbol = symbol;
+	public void setSymbol(String symbol) {
+		this.symbol.set(symbol);
 	}
-	public StringProperty getMarket() {
-		return market;
+	public String getMarket() {
+		return market.get();
 	}
-	public void setMarket(StringProperty market) {
-		this.market = market;
+	public void setMarket(String market) {
+		this.market.set(market);
 	}
-	public IntegerProperty getTurnover() {
-		return turnover;
+	public Integer getTurnover() {
+		return turnover.get();
 	}
-	public void setTurnover(IntegerProperty turnover) {
-		this.turnover = turnover;
+	public void setTurnover(Integer turnover) {
+		this.turnover.set(turnover);
 	}
-	public DoubleProperty getLastPrice() {
-		return lastPrice;
+	public Double getLastPrice() {
+		return lastPrice.get();
 	}
-	public void setLastPrice(DoubleProperty lastPrice) {
-		this.lastPrice = lastPrice;
+	public void setLastPrice(Double lastPrice) {
+		this.lastPrice.set(lastPrice);
 	}
-	public IntegerProperty getLastVolume() {
-		return lastVolume;
+	public Integer getLastVolume() {
+		return lastVolume.get();
 	}
-	public void setLastVolume(IntegerProperty lastVolume) {
-		this.lastVolume = lastVolume;
+	public void setLastVolume(Integer lastVolume) {
+		this.lastVolume.set(lastVolume);
 	}
 	public ObservableList<Double> getBidPrices() {
 		return bidPrices;
 	}
-	public void setBidPrices(ObservableList<Double> bidPrices) {
-		this.bidPrices = bidPrices;
+	public void setBidPrices(List<Double> bidPrices) {
+		this.bidPrices.setAll(bidPrices);
 	}
 	public ObservableList<Integer> getBidVolumes() {
 		return bidVolumes;
 	}
-	public void setBidVolumes(ObservableList<Integer> bidVolumes) {
-		this.bidVolumes = bidVolumes;
+	public void setBidVolumes(List<Integer> bidVolumes) {
+		this.bidVolumes.setAll(bidVolumes);
 	}
 	public ObservableList<Double> getAskPrices() {
 		return askPrices;
 	}
-	public void setAskPrices(ObservableList<Double> askPrices) {
-		this.askPrices = askPrices;
+	public void setAskPrices(List<Double> askPrices) {
+		this.askPrices.setAll(askPrices);
 	}
 	public ObservableList<Integer> getAskVolumes() {
 		return askVolumes;
 	}
-	public void setAskVolumes(ObservableList<Integer> askVolumes) {
-		this.askVolumes = askVolumes;
+	public void setAskVolumes(List<Integer> askVolumes) {
+		this.askVolumes.setAll(askVolumes);
 	}
-	public StringProperty getMatchTime() {
-		return matchTime;
+	public String getMatchTime() {
+		return matchTime.get();
 	}
-	public void setMatchTime(StringProperty matchTime) {
-		this.matchTime = matchTime;
+	public void setMatchTime(String matchTime) {
+		this.matchTime.set(matchTime);
 	}
 	
 	@Override
