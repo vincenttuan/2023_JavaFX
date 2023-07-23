@@ -58,7 +58,8 @@ public class StockPriceApp extends Application {
 					// 更新 tableview
 					//tableView.refresh(); // 整頁更新效率最差
 					// 更新該筆紀錄(Refresh 紀錄)
-					stockInfos.set(i, stockInfo);
+					//stockInfos.set(i, stockInfo);
+					
 					try {
 						Thread.sleep(10);
 					} catch (Exception e) {
