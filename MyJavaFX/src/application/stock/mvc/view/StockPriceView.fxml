@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="application.stock.mvc.controller.StockPriceController">
+    <TableView fx:id="table">
+        <columns>
+            <TableColumn fx:id="symbolCol" text="symbol"/>
+            <TableColumn fx:id="lastPriceCol" text="lastPrice"/>
+            <TableColumn fx:id="matchTimeCol" text="matchTime"/>
+        </columns>
+    </TableView>
+</VBox>
