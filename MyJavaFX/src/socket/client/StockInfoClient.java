@@ -12,7 +12,8 @@ import socket.model.StockInfo;
 public class StockInfoClient {
 	
 	public static void main(String[] args) {
-		final String symbols = "2330,2412,1101";
+		//final String symbols = "2330,2412,1101";
+		final String symbols = "2330";
 		try(Socket socket = new Socket("localhost", 5000)) {
 			System.out.println("Connected to server");
 			
