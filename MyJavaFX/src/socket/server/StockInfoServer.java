@@ -15,16 +15,19 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
+import application.config.PropertiesConfig;
 import socket.model.StockInfo;
 
 public class StockInfoServer {
-	static Gson gson = new Gson();
-	static GsonBuilder gsonBuilder = new GsonBuilder();
+	private static Gson gson = new Gson();
+	private static GsonBuilder gsonBuilder = new GsonBuilder();
+	private static final int socketServerPort = Integer.parseInt(PropertiesConfig.PROP.get("socketServerPort")+"");
+	private static final String jsonFilePath = PropertiesConfig.PROP.get("jsonFilePath")+"";
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		System.out.println("Parsing json data");
-		String jsonStr = new Scanner(new File("C:\\Users\\vince\\OneDrive\\桌面\\price.json")).useDelimiter("\\A").next();
+		String jsonStr = new Scanner(new File(jsonFilePath)).useDelimiter("\\A").next();
 		/*
 		// Json 反序列化
 		JsonDeserializer<StockInfo> deserializer = new JsonDeserializer<StockInfo>() {
@@ -48,7 +51,7 @@ public class StockInfoServer {
 		
 		System.out.println("stockInfos length: " + stockInfos.length);
 		
-		try(ServerSocket serverSocket = new ServerSocket(5000)) {
+		try(ServerSocket serverSocket = new ServerSocket(socketServerPort)) {
 			
 			System.out.println("Server is running....");
 			

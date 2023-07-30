@@ -10,24 +10,27 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 
+import application.config.PropertiesConfig;
 import service.ThreadService;
 import socket.model.StockInfo;
 
 // 多人連線版本
 public class StockInfoMultiServer {
-	static Gson gson = new Gson();
-	static StockInfo[] stockInfos;
+	private static Gson gson = new Gson();
+	private static StockInfo[] stockInfos;
+	private static final int socketServerPort = Integer.parseInt(PropertiesConfig.PROP.get("socketServerPort")+"");
+	private static final String jsonFilePath = PropertiesConfig.PROP.get("jsonFilePath")+"";
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		System.out.println("Parsing json data");
-		String jsonStr = new Scanner(new File("C:\\Users\\vince\\OneDrive\\桌面\\price.json")).useDelimiter("\\A").next();
+		String jsonStr = new Scanner(new File(jsonFilePath)).useDelimiter("\\A").next();
 		stockInfos = gson.fromJson(jsonStr, StockInfo[].class);
 		for(StockInfo stockInfo : stockInfos) {
 			stockInfo.setSymbol(stockInfo.getSymbol().trim());
 		}
 		System.out.println("stockInfos length: " + stockInfos.length);
 		
-		try(ServerSocket serverSocket = new ServerSocket(5000)) {
+		try(ServerSocket serverSocket = new ServerSocket(socketServerPort)) {
 			System.out.println("Server is running....");
 			// 等待多人連線
 			while (true) {
