@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 
+import service.ThreadService;
 import socket.model.StockInfo;
 
 // 多人連線版本
@@ -31,7 +32,8 @@ public class StockInfoMultiServer {
 			// 等待多人連線
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); // 等待有人連入
-				new Thread(new ClientHandler(clientSocket)).start();
+				//new Thread(new ClientHandler(clientSocket)).start();
+				ThreadService.getInstance().socketThreadPool.submit((new ClientHandler(clientSocket)));
 			}
 			
 		} catch (Exception e) {
