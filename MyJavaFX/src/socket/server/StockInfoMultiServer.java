@@ -2,6 +2,8 @@ package socket.server;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -29,7 +31,7 @@ public class StockInfoMultiServer {
 			// 等待多人連線
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); // 等待有人連入
-				new Thread().start();
+				new Thread(new ClientHandler(clientSocket)).start();
 			}
 			
 		} catch (Exception e) {
@@ -41,16 +43,37 @@ public class StockInfoMultiServer {
 	}
 	
 	private static class ClientHandler implements Runnable {
-		private Socket socket;
+		private Socket clientSocket;
 		
-		ClientHandler(Socket socket) {
-			this.socket = socket;
+		ClientHandler(Socket clientSocket) {
+			this.clientSocket = clientSocket;
 		}
 		
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-			
+			System.out.println("Connected to client: " + clientSocket.getPort());
+			try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+				
+				for(StockInfo stockInfo : stockInfos) {
+					out.println(gson.toJson(stockInfo));
+					Thread.sleep(1);
+					if(stockInfo.getSymbol().equals("000000") && stockInfo.getMatchTime().equals("999999999999")) {
+						System.out.println("今日交易結束");
+						break;
+					}
+				}
+				
+			} catch (IOException | InterruptedException e) {
+				System.out.println("Connection with client lost");
+				System.out.println(e);
+			} finally {
+				try {
+					clientSocket.close();
+				} catch (IOException e2) {
+					System.out.println(e2);
+				}
+				System.out.println("Waiting for new connection...");
+			}
 		}
 		
 	}
