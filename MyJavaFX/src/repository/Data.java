@@ -20,6 +20,8 @@ public class Data {
 			}
 			lastStockInfo.setSymbol(symbol);
 			lastStockInfo.setLastPrice(lastPrice);
+			// 將時間格式化
+			matchTime = matchTime.substring(0, 2) + ":" + matchTime.substring(2, 4) + ":" + matchTime.substring(4, 6);
 			lastStockInfo.setMatchTime(matchTime);
 		}
 		

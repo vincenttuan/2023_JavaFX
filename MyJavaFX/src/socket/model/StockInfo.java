@@ -4,6 +4,7 @@ public class StockInfo {
 	private String symbol;
     private Double lastPrice;
     private String matchTime;
+    
 	public String getSymbol() {
 		return symbol;
 	}
@@ -19,9 +20,11 @@ public class StockInfo {
 	public String getMatchTime() {
 		return matchTime;
 	}
+	
 	public void setMatchTime(String matchTime) {
 		this.matchTime = matchTime;
 	}
+	
 	@Override
 	public String toString() {
 		return "StockInfo [symbol=" + symbol + ", lastPrice=" + lastPrice + ", matchTime=" + matchTime + "]";
