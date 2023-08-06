@@ -16,7 +16,7 @@ public class Data {
 		private ConcurrentHashMap<String, StockInfo> lastStockInfoMap = new ConcurrentHashMap<>();
 		
 		// 給 SocketClient 調用來設定最新資料
-		public synchronized void setLastStockInfo(String symbol, Double lastPrice, String matchTime) {
+		public void setLastStockInfo(String symbol, Double lastPrice, String matchTime) {
 			if(lastPrice == null) return;
 			StockInfo lastStockInfo = new StockInfo();
 			lastStockInfo.setSymbol(symbol);
@@ -25,9 +25,7 @@ public class Data {
 			//matchTime = matchTime.substring(0, 2) + ":" + matchTime.substring(2, 4) + ":" + matchTime.substring(4, 6);
 			lastStockInfo.setMatchTime(formatMatchTime(matchTime));
 			// 將 StockInfo 加入到 lastStockInfoMap
-			synchronized(lastStockInfoMap) {
-				lastStockInfoMap.put(symbol, lastStockInfo);
-			}
+			lastStockInfoMap.put(symbol, lastStockInfo);
 			//System.out.println(lastStockInfoMap);
 		}
 		
@@ -42,7 +40,7 @@ public class Data {
 		}
 		
 		// 給 JavaFX UI(Controller) 來取得最新資料
-		public synchronized StockInfo getLastStockInfo(String symbol) {
+		public StockInfo getLastStockInfo(String symbol) {
 			//System.out.println("symbol = " + symbol + " " + lastStockInfoMap.get(symbol));
 			return lastStockInfoMap.get(symbol);
 		}
