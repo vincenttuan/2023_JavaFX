@@ -20,9 +20,19 @@ public class Data {
 			}
 			lastStockInfo.setSymbol(symbol);
 			lastStockInfo.setLastPrice(lastPrice);
-			// 將時間格式化
-			matchTime = matchTime.substring(0, 2) + ":" + matchTime.substring(2, 4) + ":" + matchTime.substring(4, 6);
-			lastStockInfo.setMatchTime(matchTime);
+			// 將時間格式化 (硬編碼)
+			//matchTime = matchTime.substring(0, 2) + ":" + matchTime.substring(2, 4) + ":" + matchTime.substring(4, 6);
+			lastStockInfo.setMatchTime(formatMatchTime(matchTime));
+		}
+		
+		public String formatMatchTime(String matchTime) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(matchTime.substring(0, 2));
+			sb.append(":");
+			sb.append(matchTime.substring(2, 4));
+			sb.append(":");
+			sb.append(matchTime.substring(4, 6));
+			return sb.toString();
 		}
 		
 		// 給 JavaFX UI(Controller) 來取得最新資料
