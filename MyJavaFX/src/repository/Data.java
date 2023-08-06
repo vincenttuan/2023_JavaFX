@@ -1,5 +1,8 @@
 package repository;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import application.stock.mvc.model.StockInfo;
 
 public class Data {
@@ -9,8 +12,11 @@ public class Data {
 	
 	// 關於報價的資料
 	public class Quote {
+		// 存放最新報價 by symbol
+		private ConcurrentHashMap<String, StockInfo> lastStockInfoMap = new ConcurrentHashMap<>();
 		
-		private StockInfo lastStockInfo; // 存放最新報價
+		// 存放最新報價
+		private StockInfo lastStockInfo; 
 		
 		// 給 SocketClient 調用來設定最新資料
 		public void setLastStockInfo(String symbol, Double lastPrice, String matchTime) {
@@ -23,6 +29,8 @@ public class Data {
 			// 將時間格式化 (硬編碼)
 			//matchTime = matchTime.substring(0, 2) + ":" + matchTime.substring(2, 4) + ":" + matchTime.substring(4, 6);
 			lastStockInfo.setMatchTime(formatMatchTime(matchTime));
+			// 將 StockInfo 加入到 lastStockInfoMap
+			lastStockInfoMap.put(symbol, lastStockInfo);
 		}
 		
 		public String formatMatchTime(String matchTime) {
@@ -36,8 +44,8 @@ public class Data {
 		}
 		
 		// 給 JavaFX UI(Controller) 來取得最新資料
-		public StockInfo getLastStockInfo() {
-			return lastStockInfo;
+		public StockInfo getLastStockInfo(String symbol) {
+			return lastStockInfoMap.get(symbol);
 		}
 		
 	}
