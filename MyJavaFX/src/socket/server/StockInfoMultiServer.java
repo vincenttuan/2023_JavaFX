@@ -18,6 +18,7 @@ import socket.model.StockInfo;
 public class StockInfoMultiServer {
 	private static Gson gson = new Gson();
 	private static StockInfo[] stockInfos;
+	private static StockInfo lastStockInfo;
 	private static final int socketServerPort = Integer.parseInt(PropertiesConfig.PROP.get("socketServerPort")+"");
 	private static final String jsonFilePath = PropertiesConfig.PROP.get("jsonFilePath")+"";
 	
@@ -29,6 +30,18 @@ public class StockInfoMultiServer {
 			stockInfo.setSymbol(stockInfo.getSymbol().trim());
 		}
 		System.out.println("stockInfos length: " + stockInfos.length);
+		
+		// 開始收取報價
+		new Thread(() -> {
+			for(StockInfo stockInfo : stockInfos) {
+				lastStockInfo = stockInfo;
+				try {
+					Thread.sleep(1);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		}).start();
 		
 		try(ServerSocket serverSocket = new ServerSocket(socketServerPort)) {
 			System.out.println("Server is running....");
@@ -59,10 +72,10 @@ public class StockInfoMultiServer {
 			System.out.println("Connected to client: " + clientSocket.getPort());
 			try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 				
-				for(StockInfo stockInfo : stockInfos) {
-					out.println(gson.toJson(stockInfo));
+				for(;;) {
+					out.println(gson.toJson(lastStockInfo));
 					Thread.sleep(1);
-					if(stockInfo.getSymbol().equals("000000") && stockInfo.getMatchTime().equals("999999999999")) {
+					if(lastStockInfo.getSymbol().equals("000000") && lastStockInfo.getMatchTime().equals("999999999999")) {
 						System.out.println("今日交易結束");
 						break;
 					}
