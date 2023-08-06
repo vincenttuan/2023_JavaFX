@@ -48,15 +48,15 @@ public class StockPriceController {
 		executorService.submit(() -> {
 			while (!Thread.currentThread().isInterrupted()) {
 				// 抓取最新報價
-				symbols.forEach(symbol -> {
+				for(String symbol : symbols) {
 					StockInfo lastStockInfo = Data.getInstance().quote.getLastStockInfo(symbol);
-					// 最新報價 symbol 有沒有在 stockInfoMap 中
+					if(lastStockInfo == null) continue;
 					StockInfo stockInfo = stockInfoMap.get(lastStockInfo.getSymbol());
-					if(stockInfo == null) return;
+					if(stockInfo == null) continue;
+					stockInfo.setSymbol(lastStockInfo.getSymbol());
 					stockInfo.setLastPrice(lastStockInfo.getLastPrice());
 					stockInfo.setMatchTime(lastStockInfo.getMatchTime());
-				});
-				
+				}
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
