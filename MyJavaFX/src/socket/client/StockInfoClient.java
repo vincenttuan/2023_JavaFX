@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 import com.google.gson.Gson;
 
+import repository.Data;
 import socket.model.StockInfo;
 
 public class StockInfoClient {
@@ -26,6 +27,8 @@ public class StockInfoClient {
 				if(symbols.contains(stockInfo.getSymbol())) {
 					System.out.println(stockInfo);
 				}
+				// 將最新資料設定給 LastStockInfo
+				Data.getInstance().quote.setLastStockInfo(stockInfo.getSymbol(), stockInfo.getLastPrice(), stockInfo.getMatchTime());
 				Thread.sleep(1);
 			}
 			
