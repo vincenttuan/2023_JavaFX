@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import repository.Data;
 
 public class StockPriceController {
 	
@@ -28,6 +30,9 @@ public class StockPriceController {
 	@FXML private TableColumn<StockInfo, String> matchTimeCol;
 	
 	private List<String> symbols = Arrays.asList("2344", "1101", "2330");
+	// 建構一個 Map 根據 symbol 找到指定 StockInfo
+	private ConcurrentHashMap<String, StockInfo> stockInfoMap = new ConcurrentHashMap<>();
+	
 	private ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 	
@@ -40,6 +45,24 @@ public class StockPriceController {
 		tableView.setItems(getStockData());
 		
 		// 啟動一條執行緒, 來變更報價資料
+		executorService.submit(() -> {
+			while (!Thread.currentThread().isInterrupted()) {
+				// 抓取最新報價
+				StockInfo lastStockInfo = Data.getInstance().quote.getLastStockInfo();
+				// 最新報價 symbol 有沒有在 stockInfoMap 中
+				StockInfo stockInfo = stockInfoMap.get(lastStockInfo.getSymbol());
+				if(stockInfo == null) continue;
+				stockInfo.setLastPrice(lastStockInfo.getLastPrice());
+				stockInfo.setMatchTime(lastStockInfo.getMatchTime());
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt(); // 恢復中斷
+					break; // 跳出循環
+				}
+			}
+		});
+		/*
 		executorService.submit(() -> {
 			while (!Thread.currentThread().isInterrupted()) {
 				for(int i=0;i<symbols.size();i++) {
@@ -62,6 +85,7 @@ public class StockPriceController {
 				}
 			}
 		});
+		*/
 	}
 	
 	// 當需要停止的時候呼叫此方法
@@ -74,6 +98,7 @@ public class StockPriceController {
 			StockInfo stockInfo = new StockInfo();
 			stockInfo.setSymbol(symbol);
 			stockInfos.add(stockInfo);
+			stockInfoMap.put(symbol, stockInfo);
 		});
 		
 		return stockInfos;
