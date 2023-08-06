@@ -49,14 +49,19 @@ public class Data {
 	
 	
 	//---------------------------------------------------------------------------
-	
-	private static Data _instance = new Data();
+	// 急初始化
+	//private static Data _instance = new Data();
+	// 緩初始化
+	private static Data _instance;
 	
 	private Data() {
 		
 	}
 	
 	public static Data getInstance() {
+		if(_instance == null) {
+			_instance = new Data();
+		}
 		return _instance;
 	}
 }
