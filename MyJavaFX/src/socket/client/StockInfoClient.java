@@ -14,7 +14,7 @@ public class StockInfoClient {
 	
 	public static void main(String[] args) {
 		//final String symbols = "2330,2412,1101";
-		final String symbols = "2330";
+		//final String symbols = "2330";
 		try(Socket socket = new Socket("localhost", 5000)) {
 			System.out.println("Connected to server");
 			
@@ -24,9 +24,9 @@ public class StockInfoClient {
 			String line;
 			while ((line = in.readLine()) != null) {
 				StockInfo stockInfo = gson.fromJson(line, StockInfo.class);
-				if(symbols.contains(stockInfo.getSymbol())) {
-					System.out.println(stockInfo);
-				}
+				//if(symbols.contains(stockInfo.getSymbol())) {
+				//	System.out.println(stockInfo);
+				//}
 				// 將最新資料設定給 LastStockInfo
 				Data.getInstance().quote.setLastStockInfo(stockInfo.getSymbol(), stockInfo.getLastPrice(), stockInfo.getMatchTime());
 				Thread.sleep(1);
