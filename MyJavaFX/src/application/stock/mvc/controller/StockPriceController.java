@@ -213,8 +213,9 @@ public class StockPriceController {
 		        dataRow.add(null);
 
 		        // 如果askPrices和askVolumes存在資料，則添加到行（從末尾開始），否則添加null
-		        dataRow.add(stockInfo.getAskPrices().size() > i ? stockInfo.getAskPrices().get(i) : null);
-		        dataRow.add(stockInfo.getAskVolumes().size() > i ? stockInfo.getAskVolumes().get(i) : null);
+		        int reversedIndex = stockInfo.getAskPrices().size() - 1 - i;
+		        dataRow.add(reversedIndex >= 0 ? stockInfo.getAskPrices().get(reversedIndex) : null);
+		        dataRow.add(reversedIndex >= 0 ? stockInfo.getAskVolumes().get(reversedIndex) : null);
 		        
 		        fivetableView.getItems().add(dataRow);
 		    }
