@@ -2,14 +2,30 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="application.stock.mvc.controller.StockPriceController">
-    <TableView fx:id="tableView">
-        <columns>
-            <TableColumn fx:id="symbolCol" text="股票代號"/>
-            <TableColumn fx:id="lastPriceCol" text="成交價"/>
-            <TableColumn fx:id="matchTimeCol" text="成交時間"/>
-        </columns>
-    </TableView>
+    <!-- 股票輸入框 -->
+    <TextField fx:id="symbolInput" promptText="輸入股票代號" />
+    <HBox>
+	    <!-- 左側 table view -->
+	    <TableView fx:id="tableView" HBox.hgrow="ALWAYS">
+	        <columns>
+	            <TableColumn fx:id="symbolCol" text="股票代號"/>
+	            <TableColumn fx:id="lastPriceCol" text="成交價"/>
+	            <TableColumn fx:id="matchTimeCol" text="成交時間"/>
+	        </columns>
+	    </TableView>
+	    <!-- 右側 table view (五檔報價) -->
+    	<TableView fx:id="fivetableView" HBox.hgrow="ALWAYS">
+    		<columns>
+	            <TableColumn fx:id="bidVolumeCol" text="數量" style="-fx-alignment: CENTER; -fx-text-fill: red;" />
+	            <TableColumn fx:id="bidPriceCol" text="買價" style="-fx-alignment: CENTER;" />
+	            <TableColumn fx:id="askPriceCol" text="賣價" style="-fx-alignment: CENTER;" />
+	            <TableColumn fx:id="askVolumeCol" text="數量" style="-fx-alignment: CENTER; -fx-text-fill: green;" />
+	        </columns>
+    	</TableView>
+    </HBox>
 </VBox>
