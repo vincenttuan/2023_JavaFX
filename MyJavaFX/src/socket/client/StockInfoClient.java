@@ -27,7 +27,7 @@ public class StockInfoClient {
 					.quote
 					.setLastStockInfo(
 							stockInfo.getSymbol(), stockInfo.getLastPrice(), stockInfo.getMatchTime(),
-							stockInfo.getBidPrices(), stockInfo.getBidVolumes(), stockInfo.getBidPrices(), stockInfo.getAskVolumes());
+							stockInfo.getBidPrices(), stockInfo.getBidVolumes(), stockInfo.getAskPrices(), stockInfo.getAskVolumes());
 				Thread.sleep(1);
 			}
 			
