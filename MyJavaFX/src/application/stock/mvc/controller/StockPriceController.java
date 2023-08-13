@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import repository.Data;
 
@@ -50,6 +51,9 @@ public class StockPriceController {
 	private ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 	
+	// 目前選到的 symbol
+	private	String currentSymbol;
+		
 	@FXML private void initialize() {
 		
 		// 設定股票代號輸入欄位按下 enter 要做的事
@@ -94,15 +98,16 @@ public class StockPriceController {
 		tableView.setItems(getStockData());
 		
 		// 設定 fivetableView
+		bidVolumeCol.setCellValueFactory(data -> {
+			ObservableList<Object> row = data.getValue();
+			return new SimpleObjectProperty<>((Integer)row.get(1));
+		});
+		
 		bidPriceCol.setCellValueFactory(data -> {
 			ObservableList<Object> row = data.getValue();
 			return new SimpleObjectProperty<>((Double)row.get(0));
 		});
 		
-		bidVolumeCol.setCellValueFactory(data -> {
-			ObservableList<Object> row = data.getValue();
-			return new SimpleObjectProperty<>((Integer)row.get(1));
-		});
 		
 		askPriceCol.setCellValueFactory(data -> {
 			ObservableList<Object> row = data.getValue();
@@ -113,6 +118,15 @@ public class StockPriceController {
 			ObservableList<Object> row = data.getValue();
 			return new SimpleObjectProperty<>((Integer)row.get(3));
 		});
+		
+		// 在 tableview 中按下左鍵紀錄關注 symbol 並更新五檔
+		tableView.setOnMouseClicked(event -> {
+	        if (event.getButton() == MouseButton.PRIMARY && tableView.getSelectionModel().getSelectedItem() != null) {
+	        	StockInfo stockInfo = tableView.getSelectionModel().getSelectedItem();
+	        	currentSymbol = stockInfo.getSymbol();
+	            updateFiveTableView(stockInfo);
+	        }
+	    });
 		
 		// 啟動一條執行緒, 來變更報價資料
 		executorService.submit(() -> {
@@ -179,38 +193,46 @@ public class StockPriceController {
 	// 更新 fiveTableView 的數據邏輯
 	private void updateFiveTableView(StockInfo stockInfo) {
 		// 檢查事是否是關注的 symbol
-		// tableView.getSelectionModel().getSelectedItem().getSymbol() 得到目前點選紀錄的股票代號
-		if(!stockInfo.getSymbol().equals(tableView.getSelectionModel().getSelectedItem().getSymbol())) {
-			return;
-		}
+		if (!stockInfo.getSymbol().equals(currentSymbol)) {
+	        return;
+	    }
 		
+		System.out.println("updateFiveTableView: " + stockInfo);
 		// 清除 fiveTableView 的數據
 		fivetableView.getItems().clear();
 		
 		// 資料布局
 		try {
-			// 添加 askPrices 和 askVolumes 到 0~4 列
-			for(int i=0;i<5;i++) {
-				ObservableList<Object> dataRow = FXCollections.observableArrayList();
-				dataRow.add(null); // bid 數量
-				dataRow.add(null); // bid 價格
-				dataRow.add(stockInfo.getAskPrices().get(i)); // ask 價格
-				dataRow.add(stockInfo.getAskVolumes().get(i)); // ask 數量
-				// 將 dataRow 加入到 fiveTableView
-				fivetableView.getItems().add(dataRow);
-			}
-			
-			// 添加 bidPrices 和 bidVolumes 到 5~9 列
-			for(int i=0;i<5;i++) {
-				ObservableList<Object> dataRow = FXCollections.observableArrayList();
-				dataRow.add(stockInfo.getBidVolumes().get(i)); // bid 數量
-				dataRow.add(stockInfo.getBidPrices().get(i)); // bid 價格
-				dataRow.add(null); // ask 價格
-				dataRow.add(null); // ask 數量
-				// 將 dataRow 加入到 fiveTableView
-				fivetableView.getItems().add(dataRow);
-			}
-			
+	    	// 添加 askPrices 和 askVolumes 到行0-4
+		    for (int i = 0; i < 5; i++) {
+		        ObservableList<Object> dataRow = FXCollections.observableArrayList();
+
+		        // 為bidPrices和bidVolumes添加空白值
+
+		        dataRow.add(null);
+		        dataRow.add(null);
+
+		        // 如果askPrices和askVolumes存在資料，則添加到行（從末尾開始），否則添加null
+		        dataRow.add(stockInfo.getAskPrices().size() > i ? stockInfo.getAskPrices().get(i) : null);
+		        dataRow.add(stockInfo.getAskVolumes().size() > i ? stockInfo.getAskVolumes().get(i) : null);
+		        
+		        fivetableView.getItems().add(dataRow);
+		    }
+
+		    // 添加 bidPrices 和 bidVolumes 到行5-9
+		    for (int i = 0; i < 5; i++) {
+		        ObservableList<Object> dataRow = FXCollections.observableArrayList();
+		        
+		        // 如果bidPrices和bidVolumes存在資料，則添加到行，否則添加null
+		        dataRow.add(stockInfo.getBidPrices().size() > i ? stockInfo.getBidPrices().get(i) : null);
+		        dataRow.add(stockInfo.getBidVolumes().size() > i ? stockInfo.getBidVolumes().get(i) : null);
+
+		        // 為askPrices和askVolumes添加空白值
+		        dataRow.add(null);
+		        dataRow.add(null);
+
+		        fivetableView.getItems().add(dataRow);
+		    }
 		} catch (Exception e) {
 			System.out.println(e);
 		}
