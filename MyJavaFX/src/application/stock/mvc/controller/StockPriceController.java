@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,7 +33,7 @@ public class StockPriceController {
 	@FXML private TableColumn<StockInfo, Double> lastPriceCol;
 	@FXML private TableColumn<StockInfo, String> matchTimeCol;
 	
-	private List<String> symbols = new ArrayList<String>(Arrays.asList("2344", "1101", "2330"));
+	private List<String> symbols = new CopyOnWriteArrayList<String>(Arrays.asList("2344", "1101", "2330"));
 	// 建構一個 Map 根據 symbol 找到指定 StockInfo
 	private ConcurrentHashMap<String, StockInfo> stockInfoMap = new ConcurrentHashMap<>();
 	
