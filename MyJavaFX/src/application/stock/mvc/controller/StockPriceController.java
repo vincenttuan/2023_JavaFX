@@ -18,12 +18,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import repository.Data;
 
 public class StockPriceController {
 	
+	@FXML private TextField symbolInput;
 	@FXML private TableView<StockInfo> tableView;
 	@FXML private TableColumn<StockInfo, String> symbolCol;
 	@FXML private TableColumn<StockInfo, Double> lastPriceCol;
@@ -37,6 +39,19 @@ public class StockPriceController {
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 	
 	@FXML private void initialize() {
+		
+		// 設定股票代號輸入欄位按下 enter 要做的事
+		symbolInput.setOnAction(event -> {
+			String newSymbol = symbolInput.getText().trim();
+			if(!newSymbol.isEmpty() && !symbols.contains(newSymbol)) {
+				symbols.add(newSymbol);
+				StockInfo stockInfo = new StockInfo();
+				stockInfo.setSymbol(newSymbol);
+				stockInfos.add(stockInfo);
+				stockInfoMap.put(newSymbol, stockInfo);
+				symbolInput.clear(); // 清空輸入框
+			}
+		});
 		
 		symbolCol.setCellValueFactory(new PropertyValueFactory<>("symbol"));
 		lastPriceCol.setCellValueFactory(new PropertyValueFactory<>("lastPrice"));
