@@ -18,6 +18,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,6 +54,27 @@ public class StockPriceController {
 				stockInfos.add(stockInfo);
 				stockInfoMap.put(newSymbol, stockInfo);
 				symbolInput.clear(); // 清空輸入框
+			}
+		});
+		
+		// 增加右鍵選單
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem deleteItem = new MenuItem("Delete");
+		contextMenu.getItems().add(deleteItem);
+		
+		// 將右鍵選單設定給 tableview
+		tableView.setContextMenu(contextMenu);
+		
+		// 為 "Delete" 選項設定事件
+		deleteItem.setOnAction(event -> {
+			StockInfo selectedStockInfo = tableView.getSelectionModel().getSelectedItem();
+			if(selectedStockInfo != null) {
+				// 從 symbols 刪除
+				symbols.remove(selectedStockInfo.getSymbol());
+				// 從 stockInfoMap 刪除
+				stockInfoMap.remove(selectedStockInfo.getSymbol());
+				// 從 tableview 刪除
+				tableView.getItems().remove(selectedStockInfo);
 			}
 		});
 		
