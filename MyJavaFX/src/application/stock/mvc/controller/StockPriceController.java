@@ -90,6 +90,7 @@ public class StockPriceController {
 		symbolCol.setCellValueFactory(new PropertyValueFactory<>("symbol"));
 		lastPriceCol.setCellValueFactory(new PropertyValueFactory<>("lastPrice"));
 		matchTimeCol.setCellValueFactory(new PropertyValueFactory<>("matchTime"));
+		
 		tableView.setItems(getStockData());
 		
 		// 設定 fivetableView
@@ -132,6 +133,8 @@ public class StockPriceController {
 							stockInfo.setAskPrices(lastStockInfo.getAskPrices());
 							stockInfo.setAskVolumes(lastStockInfo.getAskVolumes());
 							
+							// 更新 fiveTableView
+							updateFiveTableView(stockInfo);
 							//System.out.println(stockInfo);
 					   });
 				
@@ -173,6 +176,45 @@ public class StockPriceController {
 		stage.show();
 	}
 	
+	// 更新 fiveTableView 的數據邏輯
+	private void updateFiveTableView(StockInfo stockInfo) {
+		// 檢查事是否是關注的 symbol
+		// tableView.getSelectionModel().getSelectedItem().getSymbol() 得到目前點選紀錄的股票代號
+		if(!stockInfo.getSymbol().equals(tableView.getSelectionModel().getSelectedItem().getSymbol())) {
+			return;
+		}
+		
+		// 清除 fiveTableView 的數據
+		fivetableView.getItems().clear();
+		
+		// 資料布局
+		try {
+			// 添加 askPrices 和 askVolumes 到 0~4 列
+			for(int i=0;i<5;i++) {
+				ObservableList<Object> dataRow = FXCollections.observableArrayList();
+				dataRow.add(null); // bid 數量
+				dataRow.add(null); // bid 價格
+				dataRow.add(stockInfo.getAskPrices().get(i)); // ask 價格
+				dataRow.add(stockInfo.getAskVolumes().get(i)); // ask 數量
+				// 將 dataRow 加入到 fiveTableView
+				fivetableView.getItems().add(dataRow);
+			}
+			
+			// 添加 bidPrices 和 bidVolumes 到 5~9 列
+			for(int i=0;i<5;i++) {
+				ObservableList<Object> dataRow = FXCollections.observableArrayList();
+				dataRow.add(stockInfo.getBidVolumes().get(i)); // bid 數量
+				dataRow.add(stockInfo.getBidPrices().get(i)); // bid 價格
+				dataRow.add(null); // ask 價格
+				dataRow.add(null); // ask 數量
+				// 將 dataRow 加入到 fiveTableView
+				fivetableView.getItems().add(dataRow);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 	
 }
 
