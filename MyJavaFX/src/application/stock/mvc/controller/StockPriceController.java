@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 
 import application.stock.mvc.model.StockInfo;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,10 +31,17 @@ import repository.Data;
 public class StockPriceController {
 	
 	@FXML private TextField symbolInput;
+	
 	@FXML private TableView<StockInfo> tableView;
 	@FXML private TableColumn<StockInfo, String> symbolCol;
 	@FXML private TableColumn<StockInfo, Double> lastPriceCol;
 	@FXML private TableColumn<StockInfo, String> matchTimeCol;
+	
+	@FXML private TableView<ObservableList<Object>> fivetableView;
+	@FXML private TableColumn<ObservableList<Object>, Integer> bidVolumeCol;
+	@FXML private TableColumn<ObservableList<Object>, Double> bidPriceCol;
+	@FXML private TableColumn<ObservableList<Object>, Double> askPriceCol;
+	@FXML private TableColumn<ObservableList<Object>, Integer> askVolumeCol;
 	
 	private List<String> symbols = new CopyOnWriteArrayList<String>(Arrays.asList("2344", "1101", "2330"));
 	// 建構一個 Map 根據 symbol 找到指定 StockInfo
@@ -78,11 +86,32 @@ public class StockPriceController {
 			}
 		});
 		
+		// 設定 tableview
 		symbolCol.setCellValueFactory(new PropertyValueFactory<>("symbol"));
 		lastPriceCol.setCellValueFactory(new PropertyValueFactory<>("lastPrice"));
 		matchTimeCol.setCellValueFactory(new PropertyValueFactory<>("matchTime"));
-		
 		tableView.setItems(getStockData());
+		
+		// 設定 fivetableView
+		bidPriceCol.setCellValueFactory(data -> {
+			ObservableList<Object> row = data.getValue();
+			return new SimpleObjectProperty<>((Double)row.get(0));
+		});
+		
+		bidVolumeCol.setCellValueFactory(data -> {
+			ObservableList<Object> row = data.getValue();
+			return new SimpleObjectProperty<>((Integer)row.get(1));
+		});
+		
+		askPriceCol.setCellValueFactory(data -> {
+			ObservableList<Object> row = data.getValue();
+			return new SimpleObjectProperty<>((Double)row.get(2));
+		});
+		
+		askVolumeCol.setCellValueFactory(data -> {
+			ObservableList<Object> row = data.getValue();
+			return new SimpleObjectProperty<>((Integer)row.get(3));
+		});
 		
 		// 啟動一條執行緒, 來變更報價資料
 		executorService.submit(() -> {
