@@ -25,7 +25,9 @@ public class StockInfoClient {
 				// 將最新資料設定給 LastStockInfo
 				Data.getInstance()
 					.quote
-					.setLastStockInfo(stockInfo.getSymbol(), stockInfo.getLastPrice(), stockInfo.getMatchTime());
+					.setLastStockInfo(
+							stockInfo.getSymbol(), stockInfo.getLastPrice(), stockInfo.getMatchTime(),
+							stockInfo.getBidPrices(), stockInfo.getBidVolumes(), stockInfo.getBidPrices(), stockInfo.getAskVolumes());
 				Thread.sleep(1);
 			}
 			

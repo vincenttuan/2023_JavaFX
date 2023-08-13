@@ -16,7 +16,8 @@ public class Data {
 		private ConcurrentHashMap<String, StockInfo> lastStockInfoMap = new ConcurrentHashMap<>();
 		
 		// 給 SocketClient 調用來設定最新資料
-		public void setLastStockInfo(String symbol, Double lastPrice, String matchTime) {
+		public void setLastStockInfo(String symbol, Double lastPrice, String matchTime, 
+				Double[] bidPrices, Integer[] bidVolumes, Double[] askPrices, Integer[] askVolumes) {
 			if(lastPrice == null) return;
 			StockInfo lastStockInfo = new StockInfo();
 			lastStockInfo.setSymbol(symbol);
@@ -24,6 +25,12 @@ public class Data {
 			// 將時間格式化 (硬編碼)
 			//matchTime = matchTime.substring(0, 2) + ":" + matchTime.substring(2, 4) + ":" + matchTime.substring(4, 6);
 			lastStockInfo.setMatchTime(formatMatchTime(matchTime));
+			// 加入五檔
+			lastStockInfo.setBidPrices(bidPrices);
+			lastStockInfo.setBidVolumes(bidVolumes);
+			lastStockInfo.setAskPrices(askPrices);
+			lastStockInfo.setAskVolumes(askVolumes);
+			
 			// 將 StockInfo 加入到 lastStockInfoMap
 			lastStockInfoMap.put(symbol, lastStockInfo);
 			//System.out.println(lastStockInfoMap);
