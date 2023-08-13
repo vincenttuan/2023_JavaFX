@@ -57,18 +57,15 @@ public class StockPriceController {
 							stockInfo.setSymbol(lastStockInfo.getSymbol());
 							stockInfo.setLastPrice(lastStockInfo.getLastPrice());
 							stockInfo.setMatchTime(lastStockInfo.getMatchTime());
+							// 注入五檔
+							stockInfo.setBidPrices(lastStockInfo.getBidPrices());
+							stockInfo.setBidVolumes(lastStockInfo.getBidVolumes());
+							stockInfo.setAskPrices(lastStockInfo.getAskPrices());
+							stockInfo.setAskVolumes(lastStockInfo.getAskVolumes());
+							
+							System.out.println(stockInfo);
 					   });
-				/*
-				for(String symbol : symbols) {
-					StockInfo lastStockInfo = Data.getInstance().quote.getLastStockInfo(symbol);
-					if(lastStockInfo == null) continue;
-					StockInfo stockInfo = stockInfoMap.get(lastStockInfo.getSymbol());
-					if(stockInfo == null) continue;
-					stockInfo.setSymbol(lastStockInfo.getSymbol());
-					stockInfo.setLastPrice(lastStockInfo.getLastPrice());
-					stockInfo.setMatchTime(lastStockInfo.getMatchTime());
-				}
-				*/
+				
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
@@ -77,30 +74,7 @@ public class StockPriceController {
 				}
 			}
 		});
-		/*
-		executorService.submit(() -> {
-			while (!Thread.currentThread().isInterrupted()) {
-				for(int i=0;i<symbols.size();i++) {
-					StockInfo stockInfo = stockInfos.get(i);
-					
-					// 建議在 JavaFX 的執行緒中更新 UI
-					Platform.runLater(() -> {
-						// 更新報價
-						stockInfo.setLastPrice(new Random().nextDouble(100));
-						// 更新時間
-						stockInfo.setMatchTime("08:59:" + new Random().nextInt(60));
-					});
-					
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt(); // 恢復中斷
-						break; // 跳出循環
-					}
-				}
-			}
-		});
-		*/
+		
 	}
 	
 	// 當需要停止的時候呼叫此方法

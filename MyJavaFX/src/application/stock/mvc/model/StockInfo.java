@@ -105,4 +105,12 @@ public class StockInfo {
         return matchTime;
     }
 	
+	@Override
+	public String toString() {
+		return "StockInfo [symbol=" + symbol + ", lastPrice=" + lastPrice + ", matchTime=" + matchTime + ", bidPrices="
+				+ bidPrices + ", bidVolumes=" + bidVolumes + ", askPrices=" + askPrices + ", askVolumes=" + askVolumes
+				+ "]";
+	}
+	
+	
 }
