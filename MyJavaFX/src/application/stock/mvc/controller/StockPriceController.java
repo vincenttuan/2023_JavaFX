@@ -53,8 +53,8 @@ public class StockPriceController {
 				stockInfo.setSymbol(newSymbol);
 				stockInfos.add(stockInfo);
 				stockInfoMap.put(newSymbol, stockInfo);
-				symbolInput.clear(); // 清空輸入框
 			}
+			symbolInput.clear(); // 清空輸入框
 		});
 		
 		// 增加右鍵選單
