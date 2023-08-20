@@ -31,31 +31,31 @@
     	<!-- 右側 (投資建議) -->
     	<VBox HBox.hgrow="ALWAYS">
     		<HBox>
-    			<Lable fx:id="stockSymbolLabel" style="-fx-font-weight: bold; -fx-font-size: 16px;"  />
-    			<Lable fx:id="stockameLabel" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+    			<Label fx:id="stockSymbolLabel" text="symbol" style="-fx-font-weight: bold; -fx-font-size: 16px;"  />
+    			<Label fx:id="stockNameLabel" text="name" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
     		</HBox>
     		<HBox>
-    			<Label text="投資建議" wrapText="true" />
+    			<Label text="投資建議: " wrapText="true" />
     			<Label fx:id="investmentAdviceLabel" wrapText="true" />
     		</HBox>
     		<HBox>
-	    		<Label text="買進理由" wrapText="true" />
+	    		<Label text="買進理由: " wrapText="true" />
 	    		<Label fx:id="buyingReasonLabel" wrapText="true" />
     		</HBox>
     		<HBox>
-	    		<Label text="賣出理由" wrapText="true" />
+	    		<Label text="賣出理由: " wrapText="true" />
 	    		<Label fx:id="sellingReasonLabel" wrapText="true" />
     		</HBox>
     		<HBox>
-	    		<Label text="投資方向" wrapText="true" />
+	    		<Label text="投資方向: " wrapText="true" />
 	    		<Label fx:id="investmentDirectionLabel" wrapText="true" />
     		</HBox>
     		<HBox>
-	    		<Label text="目標價格" wrapText="true" />
+	    		<Label text="目標價格: " wrapText="true" />
 	    		<Label fx:id="targetPriceLabel" wrapText="true" />
     		</HBox>
     		<HBox>
-	    		<Label text="投資警語" wrapText="true" />
+	    		<Label text="投資警語: " wrapText="true" />
 	    		<Label fx:id="investmentWarningLabel" wrapText="true" />
     		</HBox>
     	</VBox>
