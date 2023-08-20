@@ -204,7 +204,7 @@ public class StockPriceController {
 		        
 		        // 捕捉輸出
 		        InputStream inputStream = process.getInputStream();
-		        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "BIG5"));
 		        String bfpLine = reader.readLine();
 		        System.out.println(bfpLine);
 				
