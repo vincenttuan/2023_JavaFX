@@ -14,3 +14,10 @@ https://twstock.readthedocs.io/zh_TW/latest/prepare.html
 pip install --user twstock<br>
 pip install lxml
 
+# 範例
+import twstock<br>
+twstock.__update_codes()<br>
+stock = twstock.Stock('2330')<br>
+print(bfp.best_four_point_to_buy())  # False<br>
+print(bfp.best_four_point_to_sell()) # 量縮價跌, 三日均價由上往下, 三日均價小於六日均價<br>
+print(bfp.best_four_point())  # (False, '量縮價跌, 三日均價由上往下, 三日均價小於六日均價')<br>
