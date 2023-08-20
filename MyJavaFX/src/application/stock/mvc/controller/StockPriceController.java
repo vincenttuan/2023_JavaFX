@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import application.stock.mvc.model.StockInfo;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,6 +43,16 @@ public class StockPriceController {
 	@FXML private TableColumn<ObservableList<Object>, Double> bidPriceCol;
 	@FXML private TableColumn<ObservableList<Object>, Double> askPriceCol;
 	@FXML private TableColumn<ObservableList<Object>, Integer> askVolumeCol;
+	
+	@FXML private Label stockSymbolLabel;
+	@FXML private Label stockNameLabel;
+	@FXML private Label investmentAdviceLabel;
+	@FXML private Label buyingReasonLabel;
+	@FXML private Label sellingReasonLabel;
+	@FXML private Label investmentDirectionLabel;
+	@FXML private Label targetPriceLabel;
+	@FXML private Label investmentWarningLabel;
+	
 	
 	private List<String> symbols = new CopyOnWriteArrayList<String>(Arrays.asList("2344", "1101", "2330"));
 	// 建構一個 Map 根據 symbol 找到指定 StockInfo
