@@ -11,6 +11,6 @@ C:\Users\你的名字\AppData\Local\Programs\Python\Python311\Scripts
 # 安裝 BestFourPoint
 https://twstock.readthedocs.io/zh_TW/latest/prepare.html
 
-pip install --user twstock
+pip install --user twstock<br>
 pip install lxml
 
