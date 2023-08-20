@@ -58,7 +58,7 @@ public class StockInfoMultiServer {
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); // 等待有人連入
 				//new Thread(new ClientHandler(clientSocket)).start();
-				ThreadService.getInstance().socketThreadPool.submit((new ClientHandler(clientSocket)));
+				ThreadService.getInstance().socketThreadPool.submit(new ClientHandler(clientSocket));
 			}
 			
 		} catch (Exception e) {
