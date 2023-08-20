@@ -22,6 +22,14 @@ public class StockInfoMultiServer {
 	private static final int socketServerPort = Integer.parseInt(PropertiesConfig.PROP.get("socketServerPort")+"");
 	private static final String jsonFilePath = PropertiesConfig.PROP.get("jsonFilePath")+"";
 	
+	public synchronized static StockInfo getLastStockInfo() {
+		return lastStockInfo;
+	}
+	
+	public synchronized static void setLastStockInfo(StockInfo info) {
+		lastStockInfo = info;
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		System.out.println("Parsing json data");
 		String jsonStr = new Scanner(new File(jsonFilePath)).useDelimiter("\\A").next();
@@ -34,7 +42,8 @@ public class StockInfoMultiServer {
 		// 開始收取報價
 		new Thread(() -> {
 			for(StockInfo stockInfo : stockInfos) {
-				lastStockInfo = stockInfo;
+				//lastStockInfo = stockInfo;
+				setLastStockInfo(stockInfo);
 				try {
 					Thread.sleep(1);
 				} catch (Exception e) {
@@ -73,7 +82,8 @@ public class StockInfoMultiServer {
 			try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 				
 				for(;;) {
-					out.println(gson.toJson(lastStockInfo));
+					//out.println(gson.toJson(lastStockInfo));
+					out.println(gson.toJson(getLastStockInfo()));
 					Thread.sleep(1);
 					if(lastStockInfo.getSymbol().equals("000000") && lastStockInfo.getMatchTime().equals("999999999999")) {
 						System.out.println("今日交易結束");
