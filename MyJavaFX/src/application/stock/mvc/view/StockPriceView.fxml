@@ -18,7 +18,7 @@
 	            <TableColumn fx:id="matchTimeCol" text="成交時間"/>
 	        </columns>
 	    </TableView>
-	    <!-- 右側 table view (五檔報價) -->
+	    <!-- 中間 table view (五檔報價) -->
     	<TableView fx:id="fivetableView" HBox.hgrow="ALWAYS">
     		<columns>
 	            <TableColumn fx:id="bidVolumeCol" text="數量" style="-fx-alignment: CENTER; -fx-text-fill: red;" />
@@ -27,5 +27,36 @@
 	            <TableColumn fx:id="askVolumeCol" text="數量" style="-fx-alignment: CENTER; -fx-text-fill: green;" />
 	        </columns>
     	</TableView>
+    	<!-- 右側 (投資建議) -->
+    	<VBox HBox.hgrow="ALWAYS">
+    		<HBox>
+    			<Lable fx:id="stockSymbolLabel" style="-fx-font-weight: bold; -fx-font-size: 16px;"  />
+    			<Lable fx:id="stockameLabel" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+    		</HBox>
+    		<HBox>
+    			<Label text="投資建議" wrapText="true" />
+    			<Label fx:id="investmentAdviceLabel" wrapText="true" />
+    		</HBox>
+    		<HBox>
+	    		<Label text="買進理由" wrapText="true" />
+	    		<Label fx:id="buyingReasonLabel" wrapText="true" />
+    		</HBox>
+    		<HBox>
+	    		<Label text="賣出理由" wrapText="true" />
+	    		<Label fx:id="sellingReasonLabel" wrapText="true" />
+    		</HBox>
+    		<HBox>
+	    		<Label text="投資方向" wrapText="true" />
+	    		<Label fx:id="investmentDirectionLabel" wrapText="true" />
+    		</HBox>
+    		<HBox>
+	    		<Label text="目標價格" wrapText="true" />
+	    		<Label fx:id="targetPriceLabel" wrapText="true" />
+    		</HBox>
+    		<HBox>
+	    		<Label text="投資警語" wrapText="true" />
+	    		<Label fx:id="investmentWarningLabel" wrapText="true" />
+    		</HBox>
+    	</VBox>
     </HBox>
 </VBox>
