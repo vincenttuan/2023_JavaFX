@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import twstock
 twstock.__update_codes()
 stock = twstock.Stock('2330')

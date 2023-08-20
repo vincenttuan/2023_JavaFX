@@ -55,9 +55,14 @@
 	    		<Label fx:id="targetPriceLabel" wrapText="true" />
     		</HBox>
     		<HBox>
+	    		<Label text="最佳買賣點: " wrapText="true" />
+	    		<Label fx:id="bfpLabel" wrapText="true" />
+    		</HBox>
+    		<HBox>
 	    		<Label text="投資警語: " wrapText="true" />
 	    		<Label fx:id="investmentWarningLabel" wrapText="true" />
     		</HBox>
+    		
     	</VBox>
     </HBox>
 </VBox>

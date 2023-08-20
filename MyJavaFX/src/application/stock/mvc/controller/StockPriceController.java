@@ -1,6 +1,9 @@
 package application.stock.mvc.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +57,7 @@ public class StockPriceController {
 	@FXML private Label sellingReasonLabel;
 	@FXML private Label investmentDirectionLabel;
 	@FXML private Label targetPriceLabel;
+	@FXML private Label bfpLabel;
 	@FXML private Label investmentWarningLabel;
 	
 	
@@ -64,6 +68,7 @@ public class StockPriceController {
 	private ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 	private ExecutorService executorAIService = Executors.newSingleThreadExecutor();
+	private ExecutorService executorBFPService = Executors.newSingleThreadExecutor();
 	
 	private OpenAiApi openAiApi = new OpenAiApi();
 	// 目前選到的 symbol
@@ -148,6 +153,8 @@ public class StockPriceController {
 	            updateFiveTableView(stockInfo);
 	            // 更新股票分析資料
 	            updateStockAnalysis();
+	            // 更新執行 python bfp
+	            updateBFP();
 	        }
 	    });
 		
@@ -184,6 +191,33 @@ public class StockPriceController {
 			}
 		});
 		
+	}
+	
+	// 更新執行 bfp
+	public void updateBFP() {
+		executorBFPService.submit(() -> {
+			try {
+				String pythonPath = "python"; 
+		        String scriptPath = "C:\\Users\\vince\\git\\2023_JavaFX\\MyJavaFX\\src\\application\\hello\\bfp.py"; // 替換為你的Python檔案的路徑
+		        ProcessBuilder pb = new ProcessBuilder(pythonPath, scriptPath);
+		        Process process = pb.start();
+		        
+		        // 捕捉輸出
+		        InputStream inputStream = process.getInputStream();
+		        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		        String bfpLine = reader.readLine();
+		        System.out.println(bfpLine);
+				
+				// 在執行緒上變更 FX UI Thread (FX application thread) 要透過 Platform.runLater()
+				Platform.runLater(() -> {
+					bfpLabel.setText(bfpLine);
+				});
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		});
 	}
 	
 	// 更新股票分析資料

@@ -16,11 +16,9 @@ public class ExecPythonTest2 {
         // 捕捉輸出
         InputStream inputStream = process.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
-
+        String line = reader.readLine();
+        System.out.println(line);
+        
         int exitCode = process.waitFor();
         System.out.println("Exit Code: " + exitCode);
     }
