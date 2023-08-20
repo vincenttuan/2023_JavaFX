@@ -115,7 +115,11 @@ public class StockPriceController {
 		// 設定 fivetableView
 		bidVolumeCol.setCellValueFactory(data -> {
 			ObservableList<Object> row = data.getValue();
+			if(row == null) {
+				return new SimpleObjectProperty<>(0);
+			}	
 			return new SimpleObjectProperty<>((Integer)row.get(1));
+			
 		});
 		
 		bidPriceCol.setCellValueFactory(data -> {
