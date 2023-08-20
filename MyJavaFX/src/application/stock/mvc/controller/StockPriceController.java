@@ -189,7 +189,7 @@ public class StockPriceController {
 			try {
 				StockAnalysis stockAnalysis = openAiApi.getAnalysisOffline(currentSymbol);
 				if(stockAnalysis == null) return;
-				// 在執行緒上變更 FX UI 要透過 Platform.runLater()
+				// 在執行緒上變更 FX UI Thread (FX application thread) 要透過 Platform.runLater()
 				Platform.runLater(() -> {
 					stockSymbolLabel.setText(stockAnalysis.getStockSymbol());
 					stockNameLabel.setText(stockAnalysis.getStockName());
@@ -242,7 +242,7 @@ public class StockPriceController {
 	        return;
 	    }
 		
-		System.out.println("updateFiveTableView: " + stockInfo);
+		//System.out.println("updateFiveTableView: " + stockInfo);
 		// 清除 fiveTableView 的數據
 		fivetableView.getItems().clear();
 		
