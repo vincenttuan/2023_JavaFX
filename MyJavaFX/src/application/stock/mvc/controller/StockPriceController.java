@@ -10,7 +10,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import application.stock.mvc.model.StockAnalysis;
 import application.stock.mvc.model.StockInfo;
+import application.stock.service.OpenAiApi;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,7 +63,9 @@ public class StockPriceController {
 	
 	private ObservableList<StockInfo> stockInfos = FXCollections.observableArrayList();
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
+	private ExecutorService executorAIService = Executors.newSingleThreadExecutor();
 	
+	private OpenAiApi openAiApi = new OpenAiApi();
 	// 目前選到的 symbol
 	private	String currentSymbol;
 		
@@ -129,12 +134,16 @@ public class StockPriceController {
 			return new SimpleObjectProperty<>((Integer)row.get(3));
 		});
 		
-		// 在 tableview 中按下左鍵紀錄關注 symbol 並更新五檔
+		// 在 tableview 中按下左鍵紀錄關注 symbol 並更新五檔, 股票分析資料
 		tableView.setOnMouseClicked(event -> {
 	        if (event.getButton() == MouseButton.PRIMARY && tableView.getSelectionModel().getSelectedItem() != null) {
 	        	StockInfo stockInfo = tableView.getSelectionModel().getSelectedItem();
+	        	// 保存目前所點選的 symbol
 	        	currentSymbol = stockInfo.getSymbol();
+	        	// 更新五檔
 	            updateFiveTableView(stockInfo);
+	            // 更新股票分析資料
+	            updateStockAnalysis();
 	        }
 	    });
 		
@@ -171,6 +180,32 @@ public class StockPriceController {
 			}
 		});
 		
+	}
+	
+	// 更新股票分析資料
+	private void updateStockAnalysis() {
+		// 啟動執行緒來抓取分析資料
+		executorAIService.submit(() -> {
+			try {
+				StockAnalysis stockAnalysis = openAiApi.getAnalysisOffline(currentSymbol);
+				if(stockAnalysis == null) return;
+				// 在執行緒上變更 FX UI 要透過 Platform.runLater()
+				Platform.runLater(() -> {
+					stockSymbolLabel.setText(stockAnalysis.getStockSymbol());
+					stockNameLabel.setText(stockAnalysis.getStockName());
+					investmentAdviceLabel.setText(stockAnalysis.getInvestmentAdvice());
+					buyingReasonLabel.setText(stockAnalysis.getBuyingReason());
+					sellingReasonLabel.setText(stockAnalysis.getSellingReason());
+					investmentDirectionLabel.setText(stockAnalysis.getInvestmentDirection());
+					targetPriceLabel.setText(stockAnalysis.getTargetPrice());
+					investmentWarningLabel.setText(stockAnalysis.getInvestmentWarning());
+				});
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		});
 	}
 	
 	// 當需要停止的時候呼叫此方法
