@@ -199,7 +199,7 @@ public class StockPriceController {
 			try {
 				String pythonPath = "python"; 
 		        String scriptPath = "C:\\Users\\vince\\git\\2023_JavaFX\\MyJavaFX\\src\\application\\hello\\bfp.py"; // 替換為你的Python檔案的路徑
-		        ProcessBuilder pb = new ProcessBuilder(pythonPath, scriptPath);
+		        ProcessBuilder pb = new ProcessBuilder(pythonPath, scriptPath, currentSymbol);
 		        Process process = pb.start();
 		        
 		        // 捕捉輸出
